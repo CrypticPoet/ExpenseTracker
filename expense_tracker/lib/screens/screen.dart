@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker/constants.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/screens/widgets/add_transaction_modal.dart';
+import 'package:expense_tracker/screens/widgets/transaction_list.dart';
 
 class Screen extends StatefulWidget {
   static const Color bg = kBgColor;
@@ -80,6 +81,7 @@ class _ScreenState extends State<Screen> {
                 Text('Summary', style: kHeading1Style),
                 Text('Details', style: kHeading1Style),
                 SizedBox(height: 20),
+                TransactionList(transactions, _deleteTransaction),
               ],
             ),
           ),
