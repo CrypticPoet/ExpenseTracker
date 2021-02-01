@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:expense_tracker/constants.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/screens/widgets/add_transaction_modal.dart';
+import 'package:expense_tracker/screens/widgets/summary_chart.dart';
 import 'package:expense_tracker/screens/widgets/transaction_list.dart';
 
 class Screen extends StatefulWidget {
@@ -53,7 +54,6 @@ class _ScreenState extends State<Screen> {
   void _showTransactionModal(BuildContext ctx) {
     showDialog(
       context: ctx,
-      // TODO : Add a Transaction Modal
       builder: (bCtx) => AddTransactionModal(
         title: title,
         amount: amount,
@@ -79,6 +79,9 @@ class _ScreenState extends State<Screen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text('Summary', style: kHeading1Style),
+                SummaryChart(
+                  transactions: transactions,
+                ),
                 Text('Details', style: kHeading1Style),
                 SizedBox(height: 20),
                 TransactionList(transactions, _deleteTransaction),
