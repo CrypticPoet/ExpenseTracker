@@ -71,16 +71,19 @@ class _ScreenState extends State<Screen> {
     messages = await query.getAllSms;
     for (var i = 0; i < messages.length; i++) {
       if ((messages[i].body).toString().toLowerCase().contains("debit") &&
-          messages[i].date.isAfter(lastSync)) {
+          messages[i].date.isAfter(lastSync) &&
+          !(messages[i].body).toString().toLowerCase().contains("otp") &&
+          !(messages[i].body).toString().toLowerCase().contains("password")) {
         if ((messages[i].body).toString().toLowerCase().contains("for") ||
             (messages[i].body).toString().toLowerCase().contains("by")) {
-          RegExp reg1 = new RegExp(r'(\b\d+)');
+          RegExp reg1 = new RegExp(r'(\d+)');
           String str1 = messages[i].body;
           Match firstMatch = reg1.firstMatch(str1);
           print(
               'First match: ${str1.substring(firstMatch.start, firstMatch.end)}');
-          //print(messages[i].body);
-          print(messages[i].address);
+          print(messages[i].body);
+          //print(messages[i].address);
+          //print(messages[i].date);
         }
       }
     }
