@@ -1,9 +1,9 @@
+import 'package:expense_tracker/screens/home_screen.dart';
+import 'package:expense_tracker/screens/stats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/constants.dart';
 import 'package:expense_tracker/models/transaction.dart';
 import 'package:expense_tracker/screens/widgets/add_transaction_modal.dart';
-import 'package:expense_tracker/screens/widgets/summary_chart.dart';
-import 'package:expense_tracker/screens/widgets/transaction_list.dart';
 import 'package:sms/sms.dart';
 
 class Screen extends StatefulWidget {
@@ -54,8 +54,6 @@ class _ScreenState extends State<Screen> {
           Match firstMatch = reg1.firstMatch(str1);
           print('First match: ${str1.substring(firstMatch.start, firstMatch.end)}');
           print(messages[i].body);
-          //print(messages[i].address);
-          //print(messages[i].date);
         }
       }
     }
@@ -94,38 +92,36 @@ class _ScreenState extends State<Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Screen.bg,
-      //   title: Text('Personal Expense Tracker', style: GoogleFonts.poppins(fontSize: 18)),
-      // ),
       backgroundColor: Screen.bg,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Summary', style: kHeading1Style),
-                SummaryChart(transactions: transactions),
-                Text('Details', style: kHeading1Style),
-                SizedBox(height: 20),
-                TransactionList(transactions, _deleteTransaction),
-              ],
-            ),
+          child: Builder(
+            builder: (BuildContext ctx) {
+              switch (selectedIndex) {
+                case 0:
+                  return HomeScreen(transactions, _deleteTransaction);
+                  break;
+                case 1:
+                  return StatsScreen();
+                  break;
+                default:
+                  return HomeScreen(transactions, _deleteTransaction);
+              }
+            },
           ),
         ),
       ),
       floatingActionButton: Padding(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.all(5),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             FloatingActionButton(
                 onPressed: () {
                   _fetchSMS();
                 },
                 child: Icon(Icons.navigate_before)),
+            SizedBox(width: 20),
             FloatingActionButton(
               onPressed: () => _showTransactionModal(context),
               child: Icon(Icons.add),
@@ -136,8 +132,8 @@ class _ScreenState extends State<Screen> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          BottomNavigationBarItem(icon: Icon(Icons.trending_up), title: Text('Statistics')),
           BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
-          BottomNavigationBarItem(icon: Icon(Icons.history), title: Text('History')),
         ],
         currentIndex: selectedIndex,
         onTap: (index) {
