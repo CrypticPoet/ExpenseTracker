@@ -49,11 +49,33 @@ class _ScreenState extends State<Screen> {
           !(messages[i].body).toString().toLowerCase().contains("password")) {
         if ((messages[i].body).toString().toLowerCase().contains("for") ||
             (messages[i].body).toString().toLowerCase().contains("by")) {
-          RegExp reg1 = new RegExp(r'(\d+)');
-          String str1 = messages[i].body;
-          Match firstMatch = reg1.firstMatch(str1);
-          print('First match: ${str1.substring(firstMatch.start, firstMatch.end)}');
-          print(messages[i].body);
+          RegExp reg1 = new RegExp(r'(rs+\d+)');
+          RegExp reg2 = new RegExp(r'(rs\.+\d+)');
+          RegExp reg3 = new RegExp(r'(rs\s+\d+)');
+          RegExp reg4 = new RegExp(r'(\d+\sinr)');
+          String str1 = messages[i].body.toLowerCase().replaceAll(',', '');
+          if (reg1.hasMatch(str1)) {
+            Match firstMatch = reg1.firstMatch(str1);
+            print(
+                'First match: ${str1.substring(firstMatch.start + 2, firstMatch.end)}');
+            print(messages[i].body);
+          } else if (reg2.hasMatch(str1)) {
+            Match firstMatch = reg2.firstMatch(str1);
+            print(
+                'First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
+            print(messages[i].body);
+          } else if (reg3.hasMatch(str1)) {
+            Match firstMatch = reg3.firstMatch(str1);
+            print(
+                'First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
+            print(messages[i].body);
+          } else if (reg4.hasMatch(str1)) {
+            Match firstMatch = reg4.firstMatch(str1);
+            print(
+                'First match: ${str1.substring(firstMatch.start, firstMatch.end - 4)}');
+            print(messages[i].body);
+          }
+          //print(messages[i].date);
         }
       }
     }
