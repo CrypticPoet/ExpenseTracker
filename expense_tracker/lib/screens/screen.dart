@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:expense_tracker/constants.dart';
-import 'package:expense_tracker/models/transaction.dart';
-import 'package:expense_tracker/screens/widgets/add_transaction_modal.dart';
-import 'package:expense_tracker/screens/widgets/summary_chart.dart';
-import 'package:expense_tracker/screens/widgets/transaction_list.dart';
+import 'package:learning_flutter/constants.dart';
+import 'package:learning_flutter/models/transaction.dart';
+import 'package:learning_flutter/screens/widgets/add_transaction_modal.dart';
+import 'package:learning_flutter/screens/widgets/summary_chart.dart';
+import 'package:learning_flutter/screens/widgets/transaction_list.dart';
+import 'package:sms/sms.dart';
 
 class Screen extends StatefulWidget {
   static const Color bg = kBgColor;
@@ -19,20 +20,72 @@ class _ScreenState extends State<Screen> {
     Transaction(title: 'Samosas', amount: 10, date: DateTime.now()),
     Transaction(title: 'Patties', amount: 20, date: DateTime.now()),
     Transaction(title: 'Practical Copy', amount: 50, date: DateTime.now()),
-    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 3))),
-    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 3))),
-    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(title: 'ParleG', amount: 400, date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(title: 'ParleG', amount: 1020, date: DateTime.now().subtract(Duration(days: 6))),
-    Transaction(title: 'ParleG', amount: 100, date: DateTime.now().subtract(Duration(days: 6))),
-    Transaction(title: 'ParleG', amount: 5, date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        title: 'ParleG',
+        amount: 50,
+        date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        title: 'ParleG',
+        amount: 500,
+        date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        title: 'ParleG',
+        amount: 500,
+        date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(
+        title: 'ParleG',
+        amount: 50,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        title: 'ParleG',
+        amount: 500,
+        date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(
+        title: 'ParleG',
+        amount: 50,
+        date: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(
+        title: 'ParleG',
+        amount: 400,
+        date: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(
+        title: 'ParleG',
+        amount: 1020,
+        date: DateTime.now().subtract(Duration(days: 6))),
+    Transaction(
+        title: 'ParleG',
+        amount: 100,
+        date: DateTime.now().subtract(Duration(days: 6))),
+    Transaction(
+        title: 'ParleG',
+        amount: 5,
+        date: DateTime.now().subtract(Duration(days: 3))),
   ];
 
   final title = TextEditingController();
   final amount = TextEditingController();
+  SmsQuery query = new SmsQuery();
+  List messages = new List();
+  DateTime lastSync = DateTime.now().subtract(Duration(days: 600000));
+  fetchSMS() async {
+    messages = await query.getAllSms;
+    for (var i = 0; i < messages.length; i++) {
+      if ((messages[i].body).toString().toLowerCase().contains("debit") &&
+          messages[i].date.isAfter(lastSync)) {
+        if ((messages[i].body).toString().toLowerCase().contains("for") ||
+            (messages[i].body).toString().toLowerCase().contains("by")) {
+          RegExp reg1 = new RegExp(r'(\b\d+)');
+          String str1 = messages[i].body;
+          Match firstMatch = reg1.firstMatch(str1);
+          print(
+              'First match: ${str1.substring(firstMatch.start, firstMatch.end)}');
+          //print(messages[i].body);
+          print(messages[i].address);
+        }
+      }
+    }
+    lastSync = DateTime.now();
+  }
 
   void _deleteTransaction(int index) {
     setState(() {
@@ -42,7 +95,8 @@ class _ScreenState extends State<Screen> {
 
   void _addTransaction(String title, String amount, BuildContext ctx) {
     if (title == '' || amount == '') return;
-    var tx = Transaction(amount: int.parse(amount), title: title, date: DateTime.now());
+    var tx = Transaction(
+        amount: int.parse(amount), title: title, date: DateTime.now());
     this.title.clear();
     this.amount.clear();
     setState(() {
@@ -90,17 +144,31 @@ class _ScreenState extends State<Screen> {
           ),
         ),
       ),
-      floatingActionButton: selectedIndex == 0
-          ? FloatingActionButton(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            FloatingActionButton(
+              onPressed: () {
+                fetchSMS();
+              },
+              child: Icon(Icons.navigate_before),
+            ),
+            FloatingActionButton(
               onPressed: () => _showTransactionModal(context),
               child: Icon(Icons.add),
             )
-          : null,
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
-          BottomNavigationBarItem(icon: Icon(Icons.history), title: Text('History')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings), title: Text('Settings')),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.history), title: Text('History')),
         ],
         currentIndex: selectedIndex,
         onTap: (index) {
