@@ -15,22 +15,7 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   var selectedIndex = 0;
-  final List<Transaction> transactions = [
-    Transaction(title: 'Mobile Recharge', amount: 1000, date: DateTime.now()),
-    Transaction(title: 'Samosas', amount: 10, date: DateTime.now()),
-    Transaction(title: 'Patties', amount: 20, date: DateTime.now()),
-    Transaction(title: 'Practical Copy', amount: 50, date: DateTime.now()),
-    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 1))),
-    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 3))),
-    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 3))),
-    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(title: 'ParleG', amount: 400, date: DateTime.now().subtract(Duration(days: 5))),
-    Transaction(title: 'ParleG', amount: 1020, date: DateTime.now().subtract(Duration(days: 6))),
-    Transaction(title: 'ParleG', amount: 100, date: DateTime.now().subtract(Duration(days: 6))),
-    Transaction(title: 'ParleG', amount: 5, date: DateTime.now().subtract(Duration(days: 3))),
-  ];
+  final List<Transaction> transactions = [];
 
   final title = TextEditingController();
   final amount = TextEditingController();
@@ -38,7 +23,7 @@ class _ScreenState extends State<Screen> {
   // SMS fetch settings
   SmsQuery query = new SmsQuery();
   List messages = new List();
-  DateTime lastSync = DateTime.now().subtract(Duration(days: 600000));
+  DateTime lastSync = DateTime.now().subtract(Duration(days: 365));
 
   _fetchSMS() async {
     messages = await query.getAllSms;
@@ -61,55 +46,38 @@ class _ScreenState extends State<Screen> {
           DateTime dt = DateTime.now();
           if (reg1.hasMatch(str1)) {
             Match firstMatch = reg1.firstMatch(str1);
-            amou =
-                int.parse(str1.substring(firstMatch.start + 2, firstMatch.end));
+            amou = int.parse(str1.substring(firstMatch.start + 2, firstMatch.end));
             tit = messages[i].address;
             dt = messages[i].date;
-            print(tit);
-            print(amou);
-            print(dt);
           } else if (reg2.hasMatch(str1)) {
             Match firstMatch = reg2.firstMatch(str1);
-            amou =
-                int.parse(str1.substring(firstMatch.start + 3, firstMatch.end));
+            amou = int.parse(str1.substring(firstMatch.start + 3, firstMatch.end));
             tit = messages[i].address;
             dt = messages[i].date;
-            print(tit);
-            print(amou);
-            print(dt);
           } else if (reg3.hasMatch(str1)) {
             Match firstMatch = reg3.firstMatch(str1);
-            amou =
-                int.parse(str1.substring(firstMatch.start + 3, firstMatch.end));
+            amou = int.parse(str1.substring(firstMatch.start + 3, firstMatch.end));
             tit = messages[i].address;
             dt = messages[i].date;
-            print(tit);
-            print(amou);
-            print(dt);
           } else if (reg4.hasMatch(str1)) {
             Match firstMatch = reg4.firstMatch(str1);
-            amou =
-                int.parse(str1.substring(firstMatch.start, firstMatch.end - 4));
+            amou = int.parse(str1.substring(firstMatch.start, firstMatch.end - 4));
             tit = messages[i].address;
             dt = messages[i].date;
-            print(tit);
-            print(amou);
-            print(dt);
           } else if (reg5.hasMatch(str1)) {
             Match firstMatch = reg5.firstMatch(str1);
-            amou =
-                int.parse(str1.substring(firstMatch.start + 4, firstMatch.end));
+            amou = int.parse(str1.substring(firstMatch.start + 4, firstMatch.end));
             tit = messages[i].address;
             dt = messages[i].date;
-            print(tit);
-            print(amou);
-            print(dt);
           }
-          //print(messages[i].date);
+          var tx = Transaction(amount: amou, category: 'UPI / Online', date: dt, title: tit);
+          setState(() {
+            transactions.insert(0, tx);
+            lastSync = DateTime.now();
+          });
         }
       }
     }
-    lastSync = DateTime.now();
   }
 
   void _deleteTransaction(int index) {

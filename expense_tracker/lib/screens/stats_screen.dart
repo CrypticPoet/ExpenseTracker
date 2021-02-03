@@ -16,7 +16,7 @@ class StatsScreen extends StatelessWidget {
         Text('This Week', style: kHeading1Style),
         SummaryChart(
           transactions: transactions,
-        )
+        ),
       ],
     );
   }

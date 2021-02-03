@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expense_tracker/constants.dart';
+import 'package:expense_tracker/utils/utilFunctions.dart';
 import 'package:expense_tracker/models/transaction.dart';
 
 class SummaryChart extends StatelessWidget {
@@ -8,10 +9,6 @@ class SummaryChart extends StatelessWidget {
   static var sum = 0;
 
   static const weekdayList = {1: 'M', 2: 'T', 3: 'W', 4: 'TH', 5: 'F', 6: 'S', 7: 'SU'};
-
-  List<Transaction> get recentTransactions {
-    return transactions.where((tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)))).toList();
-  }
 
   int sumTransactions(List<Transaction> transactions) {
     sum = 0;
@@ -70,7 +67,7 @@ class SummaryChart extends StatelessWidget {
                     height: 17,
                     child: FittedBox(
                       child: Text(
-                        '₹${sumTransactions(recentTransactions.where((tx) => tx.date.weekday == i).toList())}',
+                        '₹${sumTransactions(recentTransactions(transactions).where((tx) => tx.date.weekday == i).toList())}',
                         style: kTextStyle,
                       ),
                     ),

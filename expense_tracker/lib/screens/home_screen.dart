@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:expense_tracker/screens/widgets/summary_chart.dart';
 import 'package:expense_tracker/screens/widgets/transaction_list.dart';
 import 'package:expense_tracker/constants.dart';
 import 'package:expense_tracker/models/transaction.dart';
@@ -27,9 +26,10 @@ class HomeScreen extends StatelessWidget {
         SizedBox(height: 20),
         Text('Recent Transactions', style: kHeading1Style),
         SizedBox(height: 20),
-        TransactionList(
-            transactions.where((tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 1)))).toList(),
-            deleteHandler),
+        TransactionList(transactions, deleteHandler)
+        // TransactionList(
+        //     transactions.where((tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 1)))).toList(),
+        //     deleteHandler),
       ],
     );
   }
