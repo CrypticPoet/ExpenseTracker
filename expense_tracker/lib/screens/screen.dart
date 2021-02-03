@@ -89,7 +89,7 @@ class _ScreenState extends State<Screen> {
             var tx = Transaction(amount: amou, category: 'UPI / Online', date: dt, title: tit);
             setState(() {
               transactions.insert(0, tx);
-              // lastSync = DateTime.now();
+              lastSync = DateTime.now();
             });
           }
         }
