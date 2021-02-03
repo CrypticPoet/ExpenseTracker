@@ -53,23 +53,57 @@ class _ScreenState extends State<Screen> {
           RegExp reg2 = new RegExp(r'(rs\.+\d+)');
           RegExp reg3 = new RegExp(r'(rs\s+\d+)');
           RegExp reg4 = new RegExp(r'(\d+\sinr)');
+          RegExp reg5 = new RegExp(r'(inr\s+\d+)');
           String str1 = messages[i].body.toLowerCase().replaceAll(',', '');
+          String tit = "";
+          // ignore: unused_local_variable
+          var amou = 0;
+          DateTime dt = DateTime.now();
           if (reg1.hasMatch(str1)) {
             Match firstMatch = reg1.firstMatch(str1);
-            print('First match: ${str1.substring(firstMatch.start + 2, firstMatch.end)}');
-            print(messages[i].body);
+            amou =
+                int.parse(str1.substring(firstMatch.start + 2, firstMatch.end));
+            tit = messages[i].address;
+            dt = messages[i].date;
+            print(tit);
+            print(amou);
+            print(dt);
           } else if (reg2.hasMatch(str1)) {
             Match firstMatch = reg2.firstMatch(str1);
-            print('First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
-            print(messages[i].body);
+            amou =
+                int.parse(str1.substring(firstMatch.start + 3, firstMatch.end));
+            tit = messages[i].address;
+            dt = messages[i].date;
+            print(tit);
+            print(amou);
+            print(dt);
           } else if (reg3.hasMatch(str1)) {
             Match firstMatch = reg3.firstMatch(str1);
-            print('First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
-            print(messages[i].body);
+            amou =
+                int.parse(str1.substring(firstMatch.start + 3, firstMatch.end));
+            tit = messages[i].address;
+            dt = messages[i].date;
+            print(tit);
+            print(amou);
+            print(dt);
           } else if (reg4.hasMatch(str1)) {
             Match firstMatch = reg4.firstMatch(str1);
-            print('First match: ${str1.substring(firstMatch.start, firstMatch.end - 4)}');
-            print(messages[i].body);
+            amou =
+                int.parse(str1.substring(firstMatch.start, firstMatch.end - 4));
+            tit = messages[i].address;
+            dt = messages[i].date;
+            print(tit);
+            print(amou);
+            print(dt);
+          } else if (reg5.hasMatch(str1)) {
+            Match firstMatch = reg5.firstMatch(str1);
+            amou =
+                int.parse(str1.substring(firstMatch.start + 4, firstMatch.end));
+            tit = messages[i].address;
+            dt = messages[i].date;
+            print(tit);
+            print(amou);
+            print(dt);
           }
           //print(messages[i].date);
         }
