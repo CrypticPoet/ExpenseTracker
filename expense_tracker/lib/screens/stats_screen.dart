@@ -27,20 +27,30 @@ class StatsScreen extends StatelessWidget {
             SummaryGridTile(
               title: 'Total Spent',
               amount: sumTransactions(transactions).toString(),
+              color: Colors.blue,
             ),
             SizedBox(width: 20),
             SummaryGridTile(
-                title: 'Spent this Year', amount: sumTransactions(yearlyTransactions(transactions)).toString())
+              title: 'Spent this Year',
+              amount: sumTransactions(yearlyTransactions(transactions)).toString(),
+              color: Colors.purple[300],
+            )
           ],
         ),
         SizedBox(height: 20),
         Row(
           children: <Widget>[
             SummaryGridTile(
-                title: 'Spent this Month', amount: sumTransactions(monthlyTransactions(transactions)).toString()),
+              title: 'Spent this Month',
+              amount: sumTransactions(monthlyTransactions(transactions)).toString(),
+              color: Colors.indigo[400],
+            ),
             SizedBox(width: 20),
             SummaryGridTile(
-                title: 'Spent this Week', amount: sumTransactions(weeklyTransactions(transactions)).toString())
+              title: 'Spent this Week',
+              amount: sumTransactions(weeklyTransactions(transactions)).toString(),
+              color: Colors.green,
+            )
           ],
         ),
         SizedBox(height: 20),

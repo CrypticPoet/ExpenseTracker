@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import '../../constants.dart';
 
 class SummaryGridTile extends StatelessWidget {
-  const SummaryGridTile({Key key, @required this.title, @required this.amount}) : super(key: key);
+  const SummaryGridTile({Key key, @required this.title, @required this.amount, @required this.color}) : super(key: key);
 
   final String title;
   final String amount;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(10),
-        decoration: kBoxDecoration,
+        decoration: kBoxDecoration.copyWith(border: Border.all(color: color, width: 2)),
         child: Column(
           children: <Widget>[
             Text(title, style: kTextStyle),
