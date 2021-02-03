@@ -12,9 +12,14 @@ int sumTransactions(List<Transaction> transactions) {
 }
 
 List<Transaction> monthlyTransactions(List<Transaction> transactions) {
-  return transactions.where((tx) => tx.date.month == DateTime.now().month).toList();
+  DateTime now = DateTime.now();
+  return transactions.where((tx) => tx.date.month == now.month && tx.date.year == now.year).toList();
 }
 
 List<Transaction> yearlyTransactions(List<Transaction> transactions) {
   return transactions.where((tx) => tx.date.year == DateTime.now().year).toList();
+}
+
+List<Transaction> weeklyTransactions(List<Transaction> transactions) {
+  return transactions.where((tx) => tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)))).toList();
 }

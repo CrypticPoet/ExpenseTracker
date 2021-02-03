@@ -15,7 +15,22 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   var selectedIndex = 0;
-  final List<Transaction> transactions = [];
+  final List<Transaction> transactions = [
+    Transaction(title: 'Mobile Recharge', amount: 1000, date: DateTime.now()),
+    Transaction(title: 'Samosas', amount: 10, date: DateTime.now()),
+    Transaction(title: 'Patties', amount: 20, date: DateTime.now()),
+    Transaction(title: 'Practical Copy', amount: 50, date: DateTime.now()),
+    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 1))),
+    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(title: 'ParleG', amount: 500, date: DateTime.now().subtract(Duration(days: 3))),
+    Transaction(title: 'ParleG', amount: 50, date: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(title: 'ParleG', amount: 400, date: DateTime.now().subtract(Duration(days: 5))),
+    Transaction(title: 'ParleG', amount: 1020, date: DateTime.now().subtract(Duration(days: 6))),
+    Transaction(title: 'ParleG', amount: 100, date: DateTime.now().subtract(Duration(days: 6))),
+    Transaction(title: 'ParleG', amount: 5, date: DateTime.now().subtract(Duration(days: 3))),
+  ];
 
   final title = TextEditingController();
   final amount = TextEditingController();
@@ -70,11 +85,13 @@ class _ScreenState extends State<Screen> {
             tit = messages[i].address;
             dt = messages[i].date;
           }
-          var tx = Transaction(amount: amou, category: 'UPI / Online', date: dt, title: tit);
-          setState(() {
-            transactions.insert(0, tx);
-            lastSync = DateTime.now();
-          });
+          if (tit != '') {
+            var tx = Transaction(amount: amou, category: 'UPI / Online', date: dt, title: tit);
+            setState(() {
+              transactions.insert(0, tx);
+              // lastSync = DateTime.now();
+            });
+          }
         }
       }
     }

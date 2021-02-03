@@ -8,3 +8,12 @@ class Transaction {
     this.category = category ?? 'Miscellaneous';
   }
 }
+
+List<String> categories = [
+  'Miscellaneous',
+  'Food and Beverages',
+  'Shopping',
+  'Stationary',
+  'Debts and Loans',
+  'UPI / Online'
+];
