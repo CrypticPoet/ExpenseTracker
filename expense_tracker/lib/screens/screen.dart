@@ -120,13 +120,13 @@ class _ScreenState extends State<Screen> {
               builder: (BuildContext ctx) {
                 switch (selectedIndex) {
                   case 0:
-                    return HomeScreen(transactions, _deleteTransaction);
+                    return HomeScreen(transactions, deleteHandler: _deleteTransaction, syncHandler: _fetchSMS);
                     break;
                   case 1:
-                    return StatsScreen();
+                    return StatsScreen(transactions: transactions);
                     break;
                   default:
-                    return HomeScreen(transactions, _deleteTransaction);
+                    return HomeScreen(transactions, deleteHandler: _deleteTransaction, syncHandler: _fetchSMS);
                 }
               },
             ),
@@ -135,20 +135,9 @@ class _ScreenState extends State<Screen> {
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.all(5),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            FloatingActionButton(
-                onPressed: () {
-                  _fetchSMS();
-                },
-                child: Icon(Icons.navigate_before)),
-            SizedBox(width: 20),
-            FloatingActionButton(
-              onPressed: () => _showTransactionModal(context),
-              child: Icon(Icons.add),
-            )
-          ],
+        child: FloatingActionButton(
+          onPressed: () => _showTransactionModal(context),
+          child: Icon(Icons.add),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

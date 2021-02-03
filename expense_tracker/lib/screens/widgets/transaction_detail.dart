@@ -5,10 +5,11 @@ class TransactionDetail extends StatelessWidget {
   final String title;
   final int amount;
   final String date;
+  final String category;
   final int index;
   final Function handler;
 
-  TransactionDetail({this.title, this.amount, this.date, this.index, this.handler});
+  TransactionDetail({this.title, this.amount, this.date, this.index, this.category, this.handler});
 
   @override
   Widget build(BuildContext context) {
@@ -23,33 +24,21 @@ class TransactionDetail extends StatelessWidget {
             decoration: kCircleBoxDecoration,
             margin: EdgeInsets.only(right: 15),
             padding: EdgeInsets.all(2),
-            child: FittedBox(
-              child: Text(
-                '₹$amount',
-                style: kTextStyle.copyWith(fontSize: 16),
-              ),
-            ),
+            child: FittedBox(child: Text('₹$amount', style: kTextStyle.copyWith(fontSize: 16))),
           ),
           Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
-                  width: 180,
-                  child: Text(
-                    title,
-                    style: kTextStyle,
-                  )),
+              Text(title, style: kTextStyle),
               Text('$date', style: kSecTextSyle.copyWith(color: kTextSecColor), maxLines: 1),
+              category != null ? Text(category, style: kSecTextSyle.copyWith(color: Colors.white)) : Container(),
             ],
           ),
           Spacer(),
           IconButton(
-            icon: Icon(
-              Icons.delete_forever,
-              color: Colors.red,
-            ),
+            icon: Icon(Icons.delete_forever, color: Colors.red),
             onPressed: () => handler(index),
             iconSize: 30,
           ),

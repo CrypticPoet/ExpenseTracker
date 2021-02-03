@@ -19,6 +19,7 @@ class TransactionList extends StatelessWidget {
             amount: transactions[i].amount,
             date: DateFormat.yMMMEd().format(transactions[i].date),
             index: i,
+            category: transactions[i].category,
             handler: deleteHandler,
           ),
       ],
