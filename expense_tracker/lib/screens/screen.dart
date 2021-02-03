@@ -56,23 +56,19 @@ class _ScreenState extends State<Screen> {
           String str1 = messages[i].body.toLowerCase().replaceAll(',', '');
           if (reg1.hasMatch(str1)) {
             Match firstMatch = reg1.firstMatch(str1);
-            print(
-                'First match: ${str1.substring(firstMatch.start + 2, firstMatch.end)}');
+            print('First match: ${str1.substring(firstMatch.start + 2, firstMatch.end)}');
             print(messages[i].body);
           } else if (reg2.hasMatch(str1)) {
             Match firstMatch = reg2.firstMatch(str1);
-            print(
-                'First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
+            print('First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
             print(messages[i].body);
           } else if (reg3.hasMatch(str1)) {
             Match firstMatch = reg3.firstMatch(str1);
-            print(
-                'First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
+            print('First match: ${str1.substring(firstMatch.start + 3, firstMatch.end)}');
             print(messages[i].body);
           } else if (reg4.hasMatch(str1)) {
             Match firstMatch = reg4.firstMatch(str1);
-            print(
-                'First match: ${str1.substring(firstMatch.start, firstMatch.end - 4)}');
+            print('First match: ${str1.substring(firstMatch.start, firstMatch.end - 4)}');
             print(messages[i].body);
           }
           //print(messages[i].date);
@@ -88,9 +84,10 @@ class _ScreenState extends State<Screen> {
     });
   }
 
-  void _addTransaction(String title, String amount, BuildContext ctx) {
+  void _addTransaction(String title, String amount, BuildContext ctx, String cat) {
     if (title == '' || amount == '') return;
-    var tx = Transaction(amount: int.parse(amount), title: title, date: DateTime.now());
+    var tx = Transaction(amount: int.parse(amount), title: title, date: DateTime.now(), category: cat);
+    print(tx.category);
     this.title.clear();
     this.amount.clear();
     setState(() {
@@ -117,19 +114,22 @@ class _ScreenState extends State<Screen> {
       backgroundColor: Screen.bg,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Builder(
-            builder: (BuildContext ctx) {
-              switch (selectedIndex) {
-                case 0:
-                  return HomeScreen(transactions, _deleteTransaction);
-                  break;
-                case 1:
-                  return StatsScreen();
-                  break;
-                default:
-                  return HomeScreen(transactions, _deleteTransaction);
-              }
-            },
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+            child: Builder(
+              builder: (BuildContext ctx) {
+                switch (selectedIndex) {
+                  case 0:
+                    return HomeScreen(transactions, _deleteTransaction);
+                    break;
+                  case 1:
+                    return StatsScreen();
+                    break;
+                  default:
+                    return HomeScreen(transactions, _deleteTransaction);
+                }
+              },
+            ),
           ),
         ),
       ),

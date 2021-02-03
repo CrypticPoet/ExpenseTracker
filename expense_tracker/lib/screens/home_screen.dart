@@ -12,18 +12,15 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text('Summary', style: kHeading1Style),
-          SummaryChart(transactions: transactions),
-          Text('Details', style: kHeading1Style),
-          SizedBox(height: 20),
-          TransactionList(transactions, deleteHandler),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text('Summary', style: kHeading1Style),
+        SummaryChart(transactions: transactions),
+        Text('Details', style: kHeading1Style),
+        SizedBox(height: 20),
+        TransactionList(transactions, deleteHandler),
+      ],
     );
   }
 }
